@@ -100,7 +100,7 @@ class ResStage(nn.Module):
 
 @MODEL_REGISTRY.register()
 class MyModel(nn.Module):
-    def __init__(self, num_classes=1000):
+    def __init__(self, cfg):
         super(MyModel, self).__init__()
         self.conv1 = conv_bn(3, 32, (1, 1, 1))
         self.res_stage2 = ResStage(
@@ -139,7 +139,7 @@ class MyModel(nn.Module):
         # Perform FC in a fully convolutional manner. The FC layer will be
         # initialized with a different std comparing to convolutional layers.
         self.projection1 = nn.Linear(630, 2048, bias=True)
-        self.projection2 = nn.Linear(2048, num_classes, bias=True)
+        self.projection2 = nn.Linear(2048, cfg.MODEL.NUM_CLASSES, bias=True)
 
         self.act = nn.Softmax(dim=4)
 
@@ -174,23 +174,23 @@ class MyModel(nn.Module):
         return x
 
 
-def get_model(**kwargs):
-    """
-    Returns the model.
-    """
-    model = MyModel(**kwargs)
-    return model
+# def get_model(**kwargs):
+#     """
+#     Returns the model.
+#     """
+#     model = MyModel(**kwargs)
+#     return model
 
 
-if __name__ == "__main__":
-    model = get_model(num_classes=600)
-    model = model.cuda()
-    model = nn.DataParallel(model, device_ids=None)
-    print(model)
+# # if __name__ == "__main__":
+# #     model = get_model(num_classes=600)
+# #     model = model.cuda()
+# #     model = nn.DataParallel(model, device_ids=None)
+# #     print(model)
 
-    input_var = Variable(torch.randn(1, 3, 16, 112, 112))
-    output = model(input_var)
-    print(output.shape)
+# #     input_var = Variable(torch.randn(1, 3, 16, 112, 112))
+# #     output = model(input_var)
+# #     print(output.shape)
 
 # class MobileNetV2(nn.Module):
 #     def __init__(self, num_classes=1000, sample_size=224, width_mult=1.):
