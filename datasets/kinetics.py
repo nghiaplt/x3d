@@ -236,7 +236,7 @@ class Kinetics(torch.utils.data.Dataset):
                 random_horizontal_flip=self.cfg.DATA.RANDOM_FLIP,
                 inverse_uniform_sampling=self.cfg.DATA.INV_UNIFORM_SAMPLE,
             )
-
+            print(frames.shape)
             label = self._labels[index]
             frames = utils.pack_pathway_output(self.cfg, frames)
             return frames, label, index, {}
