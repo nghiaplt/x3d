@@ -92,10 +92,10 @@ def _get_model_analysis_input(cfg, is_train):
             cfg.DATA.TEST_CROP_SIZE,
             cfg.DATA.TEST_CROP_SIZE,
         )
-    # model_inputs = pack_pathway_output(cfg, input_tensors)
+    model_inputs = pack_pathway_output(cfg, input_tensors)
     model_inputs = input_tensors.unsqueeze(0).cuda(non_blocking=True)
-    # for i in range(len(model_inputs)):
-    #     model_inputs[i] = model_inputs[i].unsqueeze(0).cuda(non_blocking=True)
+    for i in range(len(model_inputs)):
+        model_inputs[i] = model_inputs[i].unsqueeze(0).cuda(non_blocking=True)
 
     # If detection is enabled, count flops for one proposal.
     if cfg.DETECTION.ENABLE:
