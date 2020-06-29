@@ -156,6 +156,7 @@ class MyModel(nn.Module):
         )
 
     def forward(self, x):
+        x = x[0]
         x = self.conv1(x)
         x = self.res_stage2(x)
         x = self.res_stage3(x)
